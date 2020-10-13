@@ -1,7 +1,8 @@
 library(tidyverse)
+library(ggplot2)
 
-ratings2019 <- read.csv("2019-05_supp.csv", header=TRUE)
-ratings2014 <- read.csv("2014-05_supp.csv", header=TRUE)
+ratings2019 <- read.csv("R_Projects/2019-05_supp.csv", header=TRUE)
+ratings2014 <- read.csv("R_Projects/2014-05_supp.csv", header=TRUE)
 
 
 ggplot(ratings, aes(x=SEX, y=RATING)) +

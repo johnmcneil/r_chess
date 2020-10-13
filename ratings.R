@@ -1,6 +1,7 @@
 library(tidyverse)
+library(ggplot2)
 
-ratings <- read.csv("2019-05_standard.csv", header=TRUE)
+ratings <- read.csv("R_Projects/2019-05_standard.csv", header=TRUE)
 
 selected_ratings <- ratings %>% filter(FED %in% c('RUS', 'IND', 'USA', 'GER', 'CRO') & !(BIRTH_YEAR == 0)) %>%
   mutate(AGE = 2019 - BIRTH_YEAR)

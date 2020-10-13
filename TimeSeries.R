@@ -1,8 +1,9 @@
 library(tidyverse)
+library(ggplot2)
 library(RColorBrewer)
 
-year1_data <- read.csv('2014-05_supp.csv', header = TRUE)
-year2_data <- read.csv('2019-05_supp.csv', header = TRUE)
+year1_data <- read.csv('R_Projects/2014-05_supp.csv', header = TRUE)
+year2_data <- read.csv('R_Projects/2019-05_supp.csv', header = TRUE)
 
 
 
