@@ -1,5 +1,4 @@
 library(tidyverse)
-library(ggplot2)
 
 ratings <- read.csv("R_Projects/2019-05_standard.csv", header=TRUE)
 

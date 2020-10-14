@@ -1,5 +1,5 @@
 library(tidyverse)
-library(ggplot2)
+
 
 # this was the way to read the raw fixed width file
 # ratings <- read.fwf("standard_rating_list.txt", 

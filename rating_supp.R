@@ -1,16 +1,15 @@
 library(tidyverse)
-library(ggplot2)
 
 ratings2019 <- read.csv("R_Projects/2019-05_supp.csv", header=TRUE)
 ratings2014 <- read.csv("R_Projects/2014-05_supp.csv", header=TRUE)
 
 
-ggplot(ratings, aes(x=SEX, y=RATING)) +
+ggplot(ratings2019, aes(x=SEX, y=RATING)) +
   geom_boxplot()
 
 # Do the ratings and age distributions differ by country?
 
-selected_ratings <- ratings %>% 
+selected_ratings <- ratings2019 %>% 
   filter(FED %in% c('RUS', 'IND', 'USA', 'GER') & !(BIRTH_YEAR == 0)) %>%
   mutate(AGE = 2019 - BIRTH_YEAR)
 
@@ -23,8 +22,8 @@ ggplot(selected_ratings, aes(x=FED, y=AGE)) +
 
 # What is the percentage of female players by country?
 
-gender_balance_by_country <- ratings %>% group_by(FED) %>% 
-  summarize(pct_female = sum(ifelse(SEX == 'F', 1, 0)) / n(),
+gender_balance_by_country <- ratings2019 %>% group_by(FED) %>% 
+  summarize(pct_female = 100 * sum(ifelse(SEX == 'F', 1, 0)) / n(),
             total_players = n()) %>%
   arrange(desc(pct_female))
 
@@ -61,6 +60,6 @@ t.test(data=ind, RATING~SEX)
 
 # How many unique countries are represented in the dataset?
 
-length(unique(ratings$FED))
+length(unique(ratings2019$FED))
 
 ratings %>% select(FED) %>% unique() %>% arrange(FED)
