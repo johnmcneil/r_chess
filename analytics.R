@@ -1,3 +1,5 @@
+library(tidyverse)
+
 jun2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-06.csv", sep = "\t", header=TRUE)
 jul2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-07.csv", sep = "\t", header=TRUE)
 aug2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-08.csv", sep = "\t", header=TRUE)
@@ -16,19 +18,16 @@ nrow(oct2020)
 
 summary(sep2020$Number_of_names_searched)
 summary(sep2020$HTTP_REFERER)
-summary(sep2020$format)
+summary(jun2020$format)
 
 boxplot(sep2020$Number_of_names_searched)
 
 hist(sep2020$Number_of_names_searched)
 
-referer <- table(july2019$HTTP_REFERER)
+referer <- table(sep2020$HTTP_REFERER)
 barplot(referer)
 
-format <- table(july2019$format)
+format <- table(sep2020$format)
 barplot(format)
 
-install.packages("dplyr")
-library(dplyr)
 
-summer <- june2019 + july2019 + august2019
