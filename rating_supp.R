@@ -2,7 +2,8 @@ library(tidyverse)
 
 ratings2019 <- read.csv("R_Projects/2019-05_supp.csv", header=TRUE)
 ratings2014 <- read.csv("R_Projects/2014-05_supp.csv", header=TRUE)
-
+allFide <- read.csv("R_Projects/fide_ratings.csv", header=TRUE)
+allFide <- read.csv.ffdf(file = "R_Projects/fide_ratings.csv", header=TRUE)
 
 ggplot(ratings2019, aes(x=SEX, y=RATING)) +
   geom_boxplot()

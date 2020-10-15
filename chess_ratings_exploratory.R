@@ -1,6 +1,5 @@
 library(tidyverse)
 
-
 # this was the way to read the raw fixed width file
 # ratings <- read.fwf("standard_rating_list.txt", 
 #                    widths=c(16, 61, 4, 4, 5, 5, 15, 4, 6, 4, 3, 6, 4), 
