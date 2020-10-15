@@ -1,5 +1,9 @@
 library(tidyverse)
 
+
+# read csv files 
+# note that 2019-05.csv is not a complete month and 2020-10.csv currently is not complete
+
 may2019 <- read.csv("~/R_Projects/chessgraphs_logs/2019-05.csv", quote="", sep ="\t", header=TRUE)
 jun2019 <- read.csv("~/R_Projects/chessgraphs_logs/2019-06.csv", quote="", sep ="\t", header=TRUE)
 jul2019 <- read.csv("~/R_Projects/chessgraphs_logs/2019-07.csv", quote="", sep ="\t", header=TRUE)
@@ -20,15 +24,30 @@ aug2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-08.csv", quote="", sep =
 sep2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-09.csv", quote="", sep ="\t", header=TRUE)
 oct2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-10.csv", quote="", sep ="\t", header=TRUE)
 
+# column names
+names(jul2019)
+names(aug2020)
 
-names(july2019)
-names(august2020)
-
-nrow(jul2020)
+# number of rows
+nrow(may2019)
+nrow(jun2019)
+nrow(jul2019)
+nrow(aug2019)
+nrow(sep2019)
+nrow(oct2019)
+nrow(nov2019)
+nrow(dec2019)
+nrow(jan2020)
+nrow(feb2020)
+nrow(mar2020)
+nrow(apr2020)
+nrow(may2020)
 nrow(jun2020)
+nrow(jul2020)
 nrow(aug2020)
 nrow(sep2020)
 nrow(oct2020)
+     
 
 summary(sep2020$Number_of_names_searched)
 summary(sep2020$HTTP_REFERER)
