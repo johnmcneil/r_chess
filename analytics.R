@@ -109,9 +109,26 @@ formatCounts <- data.frame(
   obs = c(nrow(allStandard), nrow(allRapid), nrow(allBlitz), nrow(allFideStandard), nrow(allFideRapid), 
           nrow(allFideBlitz), nrow(allUscfRegular), nrow(allUscfQuick), nrow(allUscfBlitz),
           nrow(allUrs)))
-monthCounts <- data.frame(
-  month = c("2019-06", "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12",
-            "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06", "2020-07", "2020-08", "2020-09"),
-  obs = c(nrow(jun2019), nrow(jul2019), nrow(aug2019), nrow(sep2019), nrow(oct2019), nrow(nov2019), nrow(dec2019),
-          nrow(jan2020), nrow(feb2020), nrow(mar2020), nrow(apr2020), nrow(may2020), nrow(jun2020), nrow(jul2020),
-          nrow(aug2020), nrow(sep2020)))
+
+# explore referers
+refererFullRow <- all_logs %>% filter(X.HTTP_REFERER. != "" 
+                               & X.HTTP_REFERER. != "https://www.chessgraphs.com"
+                               & X.HTTP_REFERER. != "https://www.chessgraphs.com/"
+                               & X.HTTP_REFERER. != "https://chessgraphs.com"
+                               & X.HTTP_REFERER. != "https://chessgraphs.com/"
+                               & X.HTTP_REFERER. != "chessgraphs.com"
+                               & X.HTTP_REFERER. != "chessgraphs.com/"
+                               & X.HTTP_REFERER. != "www.chessgraphs.com"
+                               & X.HTTP_REFERER. != "www.chessgraphs.com/"
+                               & X.HTTP_REFERER. != "http://www.chessgraphs.com"
+                               & X.HTTP_REFERER. != "http://www.chessgraphs.com/"
+                               & X.HTTP_REFERER. != "http://chessgraphs.com"
+                               & X.HTTP_REFERER. != "http://chessgraphs.com/")
+
+referer <- table(refererFullRow$X.HTTP_REFERER.)
+referer <- referer %>% desc()
+view(referer)
+
+summary(referer)
+barplot(referer)
+
