@@ -37,8 +37,21 @@ monthCounts <- data.frame(
       nrow(jan2020), nrow(feb2020), nrow(mar2020), nrow(apr2020), nrow(may2020), nrow(jun2020), nrow(jul2020),
       nrow(aug2020), nrow(sep2020))
 )
-     
 
+# summarize month counts
+summary(monthCounts$obs)
+
+# histogram
+hist(monthCounts$obs)
+
+# scatter plot of month counts  
+ggplot(monthCounts, aes(x=month, y=obs)) + 
+  geom_point() 
+
+# boxplot of month counts
+boxplot(monthCounts$obs)
+
+# focus on most recent complete month, 2020-09
 
 summary(sep2020$Number_of_names_searched)
 summary(sep2020$HTTP_REFERER)
