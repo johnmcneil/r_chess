@@ -28,26 +28,17 @@ oct2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-10.csv", quote="", sep =
 names(jul2019)
 names(aug2020)
 
-# number of rows
-nrow(may2019)
-nrow(jun2019)
-nrow(jul2019)
-nrow(aug2019)
-nrow(sep2019)
-nrow(oct2019)
-nrow(nov2019)
-nrow(dec2019)
-nrow(jan2020)
-nrow(feb2020)
-nrow(mar2020)
-nrow(apr2020)
-nrow(may2020)
-nrow(jun2020)
-nrow(jul2020)
-nrow(aug2020)
-nrow(sep2020)
-nrow(oct2020)
+
+# number of observations each month
+monthCounts <- data.frame(
+  month = c("2019-06", "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12",
+        "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06", "2020-07", "2020-08", "2020-09"),
+  obs = c(nrow(jun2019), nrow(jul2019), nrow(aug2019), nrow(sep2019), nrow(oct2019), nrow(nov2019), nrow(dec2019),
+      nrow(jan2020), nrow(feb2020), nrow(mar2020), nrow(apr2020), nrow(may2020), nrow(jun2020), nrow(jul2020),
+      nrow(aug2020), nrow(sep2020))
+)
      
+
 
 summary(sep2020$Number_of_names_searched)
 summary(sep2020$HTTP_REFERER)
