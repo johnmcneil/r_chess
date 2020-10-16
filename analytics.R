@@ -129,6 +129,5 @@ referer <- table(refererFullRow$X.HTTP_REFERER.)
 referer <- referer %>% desc()
 view(referer)
 
-summary(referer)
-barplot(referer)
+
 
