@@ -8,11 +8,7 @@ allFide <- read.csv.ffdf(file = "R_Projects/fide_ratings.csv", header=TRUE)
 ggplot(ratings2019, aes(x=SEX, y=RATING)) +
   geom_boxplot()
 
-# summarize, explore rating distribution
-may2019_standard <- ratings2019 %>% filter(ratings2019$RATING_FORMAT == "standard"
-                                           & ratings2019$BIRTH_YEAR != "0")
-plot(may2019_standard$BIRTH_YEAR, may2019_standard$RATING)
-  
+# explore the data set
 summary(ratings2019$RATING)
 str(ratings2019$RATING)
 str(ratings2019$DATE)
@@ -20,6 +16,19 @@ str(ratings2019$BIRTH_YEAR)
 mean(ratings2019$BIRTH_YEAR)
 summary(ratings2019$BIRTH_YEAR)
 plot(ratings2019$BIRTH_YEAR, ratings2019$RATING)
+
+# filter for standard ratings
+may2019_standard <- ratings2019 %>% filter(ratings2019$RATING_FORMAT == "standard"
+                                           & ratings2019$BIRTH_YEAR != "0")
+
+# is there a correlation between AGE and RATING?
+may2019_standard$AGE <- 2020 - may2019_standard$BIRTH_YEAR
+summary(may2019_standard$AGE)
+plot(may2019_standard$AGE, may2019_standard$RATING)
+
+# is there a correlation for masters?
+may2019_standard_masters <- may2019_standard %>% filter(may2019_standard$RATING > 2599)
+plot(may2019_standard_masters$AGE, may2019_standard_masters$RATING)
 
 selected_ratings <- ratings2019 %>% 
   filter(FED %in% c('RUS', 'IND', 'USA', 'GER') & !(BIRTH_YEAR == 0)) %>%
