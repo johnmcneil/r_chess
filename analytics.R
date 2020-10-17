@@ -23,6 +23,7 @@ aug2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-08.csv", quote="", sep =
 sep2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-09.csv", quote="", sep ="\t", header=TRUE)
 oct2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-10.csv", quote="", sep ="\t", header=TRUE)
 
+
 # check column names
 names(jul2019)
 names(aug2020)

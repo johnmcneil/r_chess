@@ -5,12 +5,11 @@ library(tidyverse)
 #                    widths=c(16, 61, 4, 4, 5, 5, 15, 4, 6, 4, 3, 6, 4), 
 #                    header=TRUE)
 
-ratings <- read.csv("R_Projects/2019-05_standard.csv", header=TRUE)
 
+ratings <- read.csv("R_Projects/2019-05_standard.csv", header=TRUE)
 
 ggplot(ratings, aes(x=SEX, y=RATING)) +
   geom_boxplot()
-
 
 # Do the ratings and age distributions differ by country?
 

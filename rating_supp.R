@@ -8,7 +8,18 @@ allFide <- read.csv.ffdf(file = "R_Projects/fide_ratings.csv", header=TRUE)
 ggplot(ratings2019, aes(x=SEX, y=RATING)) +
   geom_boxplot()
 
-# Do the ratings and age distributions differ by country?
+# summarize, explore rating distribution
+may2019_standard <- ratings2019 %>% filter(ratings2019$RATING_FORMAT == "standard"
+                                           & ratings2019$BIRTH_YEAR != "0")
+plot(may2019_standard$BIRTH_YEAR, may2019_standard$RATING)
+  
+summary(ratings2019$RATING)
+str(ratings2019$RATING)
+str(ratings2019$DATE)
+str(ratings2019$BIRTH_YEAR)
+mean(ratings2019$BIRTH_YEAR)
+summary(ratings2019$BIRTH_YEAR)
+plot(ratings2019$BIRTH_YEAR, ratings2019$RATING)
 
 selected_ratings <- ratings2019 %>% 
   filter(FED %in% c('RUS', 'IND', 'USA', 'GER') & !(BIRTH_YEAR == 0)) %>%
