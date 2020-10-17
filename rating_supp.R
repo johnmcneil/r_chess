@@ -3,10 +3,7 @@ library(tidyverse)
 ratings2019 <- read.csv("R_Projects/2019-05_supp.csv", header=TRUE)
 ratings2014 <- read.csv("R_Projects/2014-05_supp.csv", header=TRUE)
 allFide <- read.csv("R_Projects/fide_ratings.csv", header=TRUE)
-allFide <- read.csv.ffdf(file = "R_Projects/fide_ratings.csv", header=TRUE)
 
-ggplot(ratings2019, aes(x=SEX, y=RATING)) +
-  geom_boxplot()
 
 # explore the data set
 summary(ratings2019$RATING)
@@ -16,19 +13,58 @@ str(ratings2019$BIRTH_YEAR)
 mean(ratings2019$BIRTH_YEAR)
 summary(ratings2019$BIRTH_YEAR)
 plot(ratings2019$BIRTH_YEAR, ratings2019$RATING)
+hist(ratings2019$RATING)
 
-# filter for standard ratings
+
+# filter for standard ratings of active players
 may2019_standard <- ratings2019 %>% filter(ratings2019$RATING_FORMAT == "standard"
-                                           & ratings2019$BIRTH_YEAR != "0")
+                                           & ratings2019$BIRTH_YEAR != "0"
+                                           & ratings2019$FLAG != "i")
+hist(may2019_standard$RATING)
 
-# is there a correlation between AGE and RATING?
+# compare age and rating
 may2019_standard$AGE <- 2020 - may2019_standard$BIRTH_YEAR
 summary(may2019_standard$AGE)
 plot(may2019_standard$AGE, may2019_standard$RATING)
+hist(may2019_standard$AGE)
+age_table <- table(may2019_standard$AGE)
+view(age_table)
 
-# is there a correlation for masters?
-may2019_standard_masters <- may2019_standard %>% filter(may2019_standard$RATING > 2599)
+# compare age and rating for masters
+may2019_standard_masters <- may2019_standard %>% filter(may2019_standard$RATING > 2199)
+boxplot(may2019_standard_masters$RATING)
+hist(may2019_standard_masters$RATING)
 plot(may2019_standard_masters$AGE, may2019_standard_masters$RATING)
+
+
+# group by title
+boxplot(may2019_standard_masters$RATING ~ may2019_standard_masters$TIT)
+title_table <- table(may2019_standard_masters$TIT)
+barplot(title_table)
+
+# group by country
+boxplot(may2019_standard_masters$RATING ~ may2019_standard_masters$FED)
+masters_per_country <- table(may2019_standard_masters$FED)
+barplot(masters_per_country)
+
+# group by gender
+boxplot(may2019_standard_masters$RATING ~ may2019_standard_masters$SEX)
+ggplot(may2019_standard_masters, aes(x=SEX, y=RATING)) +
+  geom_boxplot()
+
+masters_by_gender <- table(may2019_standard_masters$SEX)
+barplot(masters_by_gender)
+
+# group by games played
+games_per_master <- table(may2019_standard_masters$GMS)
+barplot(games_per_master)
+
+played <- may2019_standard_masters %>% filter(may2019_standard_masters$GMS > 0)
+games_played_per_master <- table(played$GMS)
+barplot(games_played_per_master)
+nrow(played)
+
+# old stuff
 
 selected_ratings <- ratings2019 %>% 
   filter(FED %in% c('RUS', 'IND', 'USA', 'GER') & !(BIRTH_YEAR == 0)) %>%
