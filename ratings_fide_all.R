@@ -71,6 +71,32 @@ ggplot(aveRatingByDate2400plus, aes(x=DATE, y=AVE_RATING))+
 allFideStandard2600plus <- allFideStandardMaster %>% filter(allFideStandardMaster$RATING > 2599
                                                             & allFideStandardMaster$FLAG !="i")
 aveRatingByDate2600plus <- allFideStandard2600plus %>% group_by(DATE) %>% summarise(AVE_RATING = mean(RATING))
-ggplot(aveRatingByDate2600plus, aes(x=DATE, y=AVE_RATING))+
+ggplot(aveRatingByDate2600plus, aes(x=DATE, y=AVE_RATING)) +
+  geom_point()                                                  
+
+# does the change over time in average rating differ by gender?
+allFideStandardMasterMale <- allFideStandardMaster %>% filter(allFideStandardMaster$SEX == "M")
+aveRatingsByDateMasterMale <- allFideStandardMasterMale %>% group_by(DATE) %>% summarise(AVE_RATING = mean(RATING))
+ggplot(aveRatingsByDateMasterMale, aes(x=DATE, y=AVE_RATING)) +
   geom_point()
-                                                                
+
+allFideStandardMasterFemale <- allFideStandardMaster %>% filter(allFideStandardMaster$SEX == "F")
+aveRatingsByDateMasterFemale <- allFideStandardMasterFemale %>% group_by(DATE) %>% summarise(AVE_RATING = mean(RATING))
+ggplot(aveRatingsByDateMasterFemale, aes(x=DATE, y=AVE_RATING)) +
+  geom_point()
+
+
+male <- allFideStandard2600plus %>% filter(allFideStandard2600plus$SEX == "M")
+ave_male <- male %>% group_by(DATE) %>% summarise(AVE_RATING = mean(RATING))
+ggplot(ave_male, aes(x=DATE, y=AVE_RATING)) +
+  geom_point()
+
+female <- allFideStandard2600plus %>% filter(allFideStandard2600plus$SEX == "F")
+ave_female <- female %>% group_by(DATE) %>% summarise(AVE_RATING = mean(RATING))
+ggplot(ave_female, aes(x=DATE, y=AVE_RATING)) +
+  geom_point()
+
+# how has the number of top female players changed?
+gender <- allFideStandardMaster %>% group_by(DATE, SEX) %>% summarize(n())
+
+femaleMastersByDate <- allFideStandardMastersFemale %>% group_by(DATE) %>% summarise(N_FEMALE = )
