@@ -74,6 +74,7 @@ aveRatingByDate2600plus <- allFideStandard2600plus %>% group_by(DATE) %>% summar
 ggplot(aveRatingByDate2600plus, aes(x=DATE, y=AVE_RATING)) +
   geom_point()                                                  
 
+
 # does the change over time in average rating differ by gender?
 allFideStandardMasterMale <- allFideStandardMaster %>% filter(allFideStandardMaster$SEX == "M")
 aveRatingsByDateMasterMale <- allFideStandardMasterMale %>% group_by(DATE) %>% summarise(AVE_RATING = mean(RATING))
@@ -100,3 +101,9 @@ ggplot(ave_female, aes(x=DATE, y=AVE_RATING)) +
 gender <- allFideStandardMaster %>% group_by(DATE, SEX) %>% summarize(n())
 
 femaleMastersByDate <- allFideStandardMastersFemale %>% group_by(DATE) %>% summarise(N_FEMALE = )
+
+# use colors!
+allFideStandard2600plusGendered <- allFideStandard2600plus %>% 
+  filter(allFideStandard2600plus$SEX != "")
+ggplot(allFideStandard2600plusGendered, aes(x=DATE, y=RATING, col=SEX)) +
+  geom_point()
