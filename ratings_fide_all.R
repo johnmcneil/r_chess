@@ -107,3 +107,8 @@ allFideStandard2600plusGendered <- allFideStandard2600plus %>%
   filter(allFideStandard2600plus$SEX != "")
 ggplot(allFideStandard2600plusGendered, aes(x=DATE, y=RATING, col=SEX)) +
   geom_point()
+
+allFideStandard2600plusFED <- allFideStandard2600plus %>%
+  filter(allFideStandard2600plus$FED != "")
+ggplot(allFideStandard2600plusFED, aes(x=DATE, y=RATING, col=FED)) +
+  geom_point()
