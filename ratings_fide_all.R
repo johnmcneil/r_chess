@@ -4,9 +4,10 @@ library(tidyverse)
 # supplements for comparison
 ratings2019 <- read.csv("R_Projects/2019-05_supp.csv", header=TRUE)
 ratings2014 <- read.csv("R_Projects/2014-05_supp.csv", header=TRUE)
+str(ratings2019)
 
 # most recent csv of all fide ratings
-allFide <- read.csv("R_Projects/fide_ratings.csv", header=FALSE)
+allFide <- read.csv("R_Projects/fide_ratings.csv", header=FALSE, stringsAsFactors = FALSE )
 
 # add column names to allFide
 names(allFide)
@@ -18,7 +19,7 @@ names(allFide)
 
 # set data types
 as.integer(allFide$ID)
-as.Date(allFide$DATE, "%Y-%m-%d")
+ratings2019$DATE <- as.Date(ratings2019$DATE, "%Y-%m-%d")
 as.factor(allFide$RATING_FORMAT)
 as.integer(allFide$FIDE_ID)
 as.character(allFide$NAME)
@@ -105,10 +106,12 @@ femaleMastersByDate <- allFideStandardMastersFemale %>% group_by(DATE) %>% summa
 # use colors!
 allFideStandard2600plusGendered <- allFideStandard2600plus %>% 
   filter(allFideStandard2600plus$SEX != "")
+as.Date(allFideStandard2600plusGendered$DATE, "%Y-%m-%d")
 ggplot(allFideStandard2600plusGendered, aes(x=DATE, y=RATING, col=SEX)) +
-  geom_point()
+  geom_point() + 
+  scale_x_date(breaks = "10 years")
 
-allFideStandard2600plusFED <- allFideStandard2600plus %>%
+?allFideStandard2600plusFED <- allFideStandard2600plus %>%
   filter(allFideStandard2600plus$FED != "")
 ggplot(allFideStandard2600plusFED, aes(x=DATE, y=RATING, col=FED)) +
   geom_point()
