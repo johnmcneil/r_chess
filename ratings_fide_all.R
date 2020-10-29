@@ -19,7 +19,13 @@ names(allFide)
 
 # set data types
 as.integer(allFide$ID)
-ratings2019$DATE <- as.Date(ratings2019$DATE, "%Y-%m-%d")
+
+
+lct <- Sys.getlocale("LC_TIME"); Sys.setlocale("LC_TIME", "C");
+as.Date(allFide$DATE, "%Y-%m-%d")
+Sys.setlocale("LC_TIME", lct)
+str(allFide$DATE)
+
 as.factor(allFide$RATING_FORMAT)
 as.integer(allFide$FIDE_ID)
 as.character(allFide$NAME)
@@ -38,7 +44,9 @@ as.factor(allFide$FOA)
 
 # explore data vectors
 names(allFide)
+str(allFide$ID)
 str(allFide$TIT)
+str(allFide$DATE)
 levels(allFide$TIT)
 
 summary(allFide$BIRTH_YEAR)
