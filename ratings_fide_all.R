@@ -81,23 +81,23 @@ aveRatingsByDateMasterFemale <- allFideStandardMasterFemale %>% group_by(DATE) %
 ggplot(aveRatingsByDateMasterFemale, aes(x=DATE, y=AVE_RATING)) +
   geom_point()
 
-# compare average rating of all known gender by date
+# compare average rating of all known gender by date. start after 2010, when gender is reported consistently
 genderKnown <- allFide %>% filter(allFide$SEX != "" 
                                   & allFide$FLAG != "i"
-                                  & RATING > 1999)
+                                  & RATING > 1999
+                                  & year(allFide$DATE) > 2010 )
 genderKnownSummary <- genderKnown %>% group_by(DATE, SEX) %>% summarise(AVE_RATING = mean(RATING))
 ggplot(genderKnownSummary, aes(x=DATE, y=AVE_RATING, col=SEX)) +
   geom_point() +
-  stat_smooth("lm")
+  stat_smooth(method="lm")
   ggtitle("Mean rating of players at or above 2000 FIDE, by gender")
 
 # compare number of all known gender by date
 genderCount <- genderKnown %>% group_by(DATE, SEX) %>% summarise(COUNT = n())
 ggplot(genderCount, aes(x=DATE, y=COUNT, col=SEX)) +
   geom_point() +
-  stat_smooth("lm")
+  stat_smooth(method="lm") +
   ggtitle("Count of players at or above 2000 FIDE by gender")
-
 
 # use colors!
 allFideStandard2600plusGendered <- allFideStandard2600plus %>% 
