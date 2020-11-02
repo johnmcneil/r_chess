@@ -1,4 +1,5 @@
 library(tidyverse)
+library(ggplot2)
 library(lubridate)
 
 # load csv
@@ -87,12 +88,14 @@ genderKnown <- allFide %>% filter(allFide$SEX != ""
 genderKnownSummary <- genderKnown %>% group_by(DATE, SEX) %>% summarise(AVE_RATING = mean(RATING))
 ggplot(genderKnownSummary, aes(x=DATE, y=AVE_RATING, col=SEX)) +
   geom_point() +
+  stat_smooth("lm")
   ggtitle("Mean rating of players at or above 2000 FIDE, by gender")
 
 # compare number of all known gender by date
 genderCount <- genderKnown %>% group_by(DATE, SEX) %>% summarise(COUNT = n())
 ggplot(genderCount, aes(x=DATE, y=COUNT, col=SEX)) +
   geom_point() +
+  stat_smooth("lm")
   ggtitle("Count of players at or above 2000 FIDE by gender")
 
 
@@ -108,3 +111,4 @@ allFideStandardMaster <- allFideStandardMaster %>%
   filter(allFideStandardMaster$FED != "")
 ggplot(allFideStandardMaster, aes(x=DATE, y=RATING, col=FED)) +
   geom_point()
+
