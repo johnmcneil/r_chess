@@ -99,14 +99,7 @@ ggplot(genderCount, aes(x=DATE, y=COUNT, col=SEX)) +
   stat_smooth(method="lm") +
   ggtitle("Count of players at or above 2000 FIDE by gender")
 
-# use colors!
-allFideStandard2600plusGendered <- allFideStandard2600plus %>% 
-  filter(allFideStandard2600plus$SEX != "")
-as.Date(allFideStandard2600plusGendered$DATE, "%Y-%m-%d")
-ggplot(allFideStandard2600plusGendered, aes(x=DATE, y=RATING, col=SEX)) +
-  geom_point() + 
-  scale_x_date(breaks = "10 years")
-
+# federation
 allFideStandardMaster <- allFideStandardMaster %>%
   filter(allFideStandardMaster$FED != "")
 ggplot(allFideStandardMaster, aes(x=DATE, y=RATING, col=FED)) +
