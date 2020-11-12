@@ -1,4 +1,5 @@
 library(tidyverse)
+library(lubridate)
 
 
 # read csv files 
@@ -33,13 +34,31 @@ all_logs <- do.call("rbind", list(may2019, jun2019, jul2019, aug2019, sep2019, o
                                   jan2020, feb2020, mar2020, apr2020, may2020, jun2020, jul2020, aug2020, 
                                   sep2020, oct2020))
 
+# names(allFide) <- c("ID", "DATE", "RATING_FORMAT", "FIDE_ID", "NAME", "FED", 
+#"SEX", "TIT", "WTIT", "OTIT", "RATING", "GMS",
+#"K", "BIRTH_YEAR", "FLAG", "BIRTH_DATE", "FOA")
+names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "SERVER_ADDR", "SERVER_NAME",
+                      "SERVER_SOFTWARE", "SERVER_PROTOCOL", "REQUEST_METHOD", "REQUEST_TIME", "REQUEST_TIME_FLOAT",
+                      "QUERY_STRING", "DOCUMENT_ROOT", "HTTP_ACCEPT", "HTTP_ACCEPT_CHARSET", "HTTP_ACCEPT_ENCODING",
+                      "HTTP_ACCEPT_LANGUAGE", "HTTP_CONNECTION", "HTTP_HOST", "HTTP_REFERER", "HTTP_USER_AGENT",
+                      "HTTPS", "REMOTE_ADDR", "REMOTE_HOST", "REMOTE_PORT", "REMOTE_USER", "REDIRECT_REMOTE_USER",
+                      "SCRIPT_FILENAME", "SERVER_ADMIN", "SERVER_PORT", "SERVER_SIGNATURE", "PATH_TRANSLATED",
+                      "SCRIPT_NAME", "REQUEST_URI", "PHP_AUTH_DIGEST", "PHP_AUTH_USER", "PHP_AUTH_PW", "AUTH_TYPE", 
+                      "PATH_INFO", "ORIG_PATH_INFO", "Number_of_names_searched", "format", "Name1", "Name2", "Name3",
+                      "Name4", "Name5", "Name6", "Name7", "Name8", "Name9", "Name10", "X")
+
+
 # number of observations each month
 monthCounts <- data.frame(
-  month = c("2019-06", "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12",
-        "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06", "2020-07", "2020-08", "2020-09"),
+  month = c("2019-06-01", "2019-07-01", "2019-08-01", "2019-09-01", "2019-10-01", "2019-11-01", "2019-12-01",
+        "2020-01-01", "2020-02-01", "2020-03-01", "2020-04-01", "2020-05-01", "2020-06-01", "2020-07-01", "2020-08-01", "2020-09-01"),
   obs = c(nrow(jun2019), nrow(jul2019), nrow(aug2019), nrow(sep2019), nrow(oct2019), nrow(nov2019), nrow(dec2019),
       nrow(jan2020), nrow(feb2020), nrow(mar2020), nrow(apr2020), nrow(may2020), nrow(jun2020), nrow(jul2020),
       nrow(aug2020), nrow(sep2020)))
+
+monthCounts$month <- as.Date(monthCounts$month, "%Y-%m-%d")
+monthCounts$obs <- as.integer(monthCounts$obs)
+str(monthCounts)
 
 # summarize month counts
 summary(monthCounts$obs)
@@ -49,7 +68,8 @@ hist(monthCounts$obs)
 
 # scatter plot of month counts  
 ggplot(monthCounts, aes(x=month, y=obs)) + 
-  geom_point() 
+  geom_point() +
+  stat_smooth(method="lm")
 
 
 # boxplot of month counts
