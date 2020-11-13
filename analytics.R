@@ -30,13 +30,10 @@ names(jul2019)
 names(aug2020)
 
 # combine logs into one data frame
-all_logs <- do.call("rbind", list(may2019, jun2019, jul2019, aug2019, sep2019, oct2019, nov2019, dec2019, 
+all_logs <- do.call("rbind", list(jun2019, jul2019, aug2019, sep2019, oct2019, nov2019, dec2019, 
                                   jan2020, feb2020, mar2020, apr2020, may2020, jun2020, jul2020, aug2020, 
-                                  sep2020, oct2020))
+                                  sep2020))
 
-# names(allFide) <- c("ID", "DATE", "RATING_FORMAT", "FIDE_ID", "NAME", "FED", 
-#"SEX", "TIT", "WTIT", "OTIT", "RATING", "GMS",
-#"K", "BIRTH_YEAR", "FLAG", "BIRTH_DATE", "FOA")
 names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "SERVER_ADDR", "SERVER_NAME",
                       "SERVER_SOFTWARE", "SERVER_PROTOCOL", "REQUEST_METHOD", "REQUEST_TIME", "REQUEST_TIME_FLOAT",
                       "QUERY_STRING", "DOCUMENT_ROOT", "HTTP_ACCEPT", "HTTP_ACCEPT_CHARSET", "HTTP_ACCEPT_ENCODING",
@@ -47,6 +44,9 @@ names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "
                       "PATH_INFO", "ORIG_PATH_INFO", "Number_of_names_searched", "format", "Name1", "Name2", "Name3",
                       "Name4", "Name5", "Name6", "Name7", "Name8", "Name9", "Name10", "X")
 
+# set data types
+all_logs$Time <- as.Date(all_logs$Time, "%Y-%m-%d:%H:%M::%S")
+all_logs$Number_of_names_searched <- as.integer(all_logs$Number_of_names_searched)
 
 # number of observations each month
 monthCounts <- data.frame(
@@ -94,22 +94,24 @@ barplot(format)
 
 # focus on all logged data()
 
-# having a problem with the number of names searched being treated as a character
-summary(all_logs$X.Number_of_names_searched.)
-summary(all_logs$X.HTTP_REFERER.)
-summary(all_logs$format)
+# explore Number_of_names_searched
+summary(all_logs$Number_of_names_searched)
+str(all_logs$Number_of_names_searched)
+boxplot(all_logs$Number_of_names_searched)
+hist(all_logs$Number_of_names_searched)
 
-boxplot(all_logs$X.Number_of_names_searched.)
 
-hist(all_logs$X.Number_of_names_searched.)
+# explore referrer
+summary(all_logs$HTTP_REFERER)
 
-referer <- table(all_logs$X.HTTP_REFERER.)
+referer <- table(all_logs$HTTP_REFERER)
 barplot(referer)
 
 format <- table(sep2020$format)
 barplot(format)
 
 # explore rating formats
+summary(all_logs$format)
 allFideStandard <- all_logs %>% filter(format == "fide-standard")
 allFideRapid <- all_logs %>% filter(format == "fide-rapid")
 allFideBlitz <- all_logs %>% filter(format == "fide-blitz")
