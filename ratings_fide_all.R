@@ -1,6 +1,8 @@
 library(tidyverse)
 library(ggplot2)
 library(lubridate)
+library(ggwordcloud)
+install.packages("ggwordcloud")
 
 # load csv
 # supplements for comparison
@@ -102,6 +104,8 @@ ggplot(genderCount, aes(x=DATE, y=COUNT, col=SEX)) +
 # federation
 allFideStandardMaster <- allFideStandardMaster %>%
   filter(allFideStandardMaster$FED != "")
-ggplot(allFideStandardMaster, aes(x=DATE, y=RATING, col=FED)) +
-  geom_point()
-
+fedCount <- allFideStandardMaster %>% group_by(FED) %>% summarise(COUNT = n())
+set.seed(42)
+ggplot(fedCount, aes(label = FED, size = COUNT)) +
+    geom_text_wordcloud() +
+    theme_minimal()

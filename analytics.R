@@ -45,6 +45,8 @@ names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "
                       "Name4", "Name5", "Name6", "Name7", "Name8", "Name9", "Name10", "X")
 
 # set data types
+
+# this is ignoring the time, just turning it into a date
 all_logs$Time <- as.Date(all_logs$Time, "%Y-%m-%d:%H:%M::%S")
 all_logs$Number_of_names_searched <- as.integer(all_logs$Number_of_names_searched)
 
@@ -96,9 +98,14 @@ barplot(format)
 
 # explore Number_of_names_searched
 summary(all_logs$Number_of_names_searched)
-str(all_logs$Number_of_names_searched)
-boxplot(all_logs$Number_of_names_searched)
-hist(all_logs$Number_of_names_searched)
+number_searched <- all_logs %>% filter(all_logs$Number_of_names_searched < 100)
+
+str(number_searched$Number_of_names_searched)
+boxplot(number_searched$Number_of_names_searched)
+hist(number_searched$Number_of_names_searched)
+
+ggplot(all_logs, aes(x=Time, y=Number_of_names_searched)) +
+  geom_point()
 
 
 # explore referrer
