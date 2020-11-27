@@ -23,7 +23,7 @@ jul2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-07.csv", quote="", sep =
 aug2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-08.csv", quote="", sep ="\t", header=TRUE)
 sep2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-09.csv", quote="", sep ="\t", header=TRUE)
 oct2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-10.csv", quote="", sep ="\t", header=TRUE)
-
+nov2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-11.csv", quote="", sep ="\t", header=TRUE)
 
 # check column names
 names(jul2019)
@@ -32,7 +32,7 @@ names(aug2020)
 # combine logs into one data frame
 all_logs <- do.call("rbind", list(jun2019, jul2019, aug2019, sep2019, oct2019, nov2019, dec2019, 
                                   jan2020, feb2020, mar2020, apr2020, may2020, jun2020, jul2020, aug2020, 
-                                  sep2020))
+                                  sep2020, oct2020, nov2020))
 
 names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "SERVER_ADDR", "SERVER_NAME",
                       "SERVER_SOFTWARE", "SERVER_PROTOCOL", "REQUEST_METHOD", "REQUEST_TIME", "REQUEST_TIME_FLOAT",
@@ -53,10 +53,11 @@ all_logs$Number_of_names_searched <- as.integer(all_logs$Number_of_names_searche
 # number of observations each month
 monthCounts <- data.frame(
   month = c("2019-06-01", "2019-07-01", "2019-08-01", "2019-09-01", "2019-10-01", "2019-11-01", "2019-12-01",
-        "2020-01-01", "2020-02-01", "2020-03-01", "2020-04-01", "2020-05-01", "2020-06-01", "2020-07-01", "2020-08-01", "2020-09-01"),
+        "2020-01-01", "2020-02-01", "2020-03-01", "2020-04-01", "2020-05-01", "2020-06-01", "2020-07-01", "2020-08-01", "2020-09-01",
+        "2020-10-01", "2020-11-01"),
   obs = c(nrow(jun2019), nrow(jul2019), nrow(aug2019), nrow(sep2019), nrow(oct2019), nrow(nov2019), nrow(dec2019),
       nrow(jan2020), nrow(feb2020), nrow(mar2020), nrow(apr2020), nrow(may2020), nrow(jun2020), nrow(jul2020),
-      nrow(aug2020), nrow(sep2020)))
+      nrow(aug2020), nrow(sep2020), nrow(oct2020), nrow(nov2020)))
 
 monthCounts$month <- as.Date(monthCounts$month, "%Y-%m-%d")
 monthCounts$obs <- as.integer(monthCounts$obs)
