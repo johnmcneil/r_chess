@@ -79,20 +79,21 @@ ggplot(monthCounts, aes(x=month, y=obs)) +
 boxplot(monthCounts$obs)
 
 
-# focus on most recent complete month, 2020-09
+# focus on most recent complete month, 2020-10
 
-summary(sep2020$X.Number_of_names_searched.)
-summary(sep2020$X.HTTP_REFERER.)
-summary(sep2020$X.format.)
+summary(oct2020$X.Number_of_names_searched.)
+summary(oct2020$X.HTTP_REFERER.)
+summary(oct2020$X.format.)
 
-boxplot(sep2020$X.Number_of_names_searched.)
+boxplot(oct2020$X.Number_of_names_searched.)
 
-hist(sep2020$X.Number_of_names_searched.)
+hist(oct2020$X.Number_of_names_searched.)
 
-referer <- table(sep2020$X.HTTP_REFERER.)
+referer <- table(oct2020$X.HTTP_REFERER.)
+referer <- 
 barplot(referer)
 
-format <- table(sep2020$format)
+format <- table(oct2020$format)
 barplot(format)
 
 # focus on all logged data()
