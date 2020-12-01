@@ -110,13 +110,32 @@ ggplot(all_logs, aes(x=Time, y=Number_of_names_searched)) +
   geom_point()
 
 
-# explore referrer
-summary(all_logs$HTTP_REFERER)
+# explore referrer for most recent month
+summary(oct2020$HTTP_REFERER)
 
-referer <- table(all_logs$HTTP_REFERER)
-barplot(referer)
+refererFullRow <- oct2020 %>% filter(X.HTTP_REFERER. != "" 
+                                      & X.HTTP_REFERER. != "https://www.chessgraphs.com"
+                                      & X.HTTP_REFERER. != "https://www.chessgraphs.com/"
+                                      & X.HTTP_REFERER. != "https://chessgraphs.com"
+                                      & X.HTTP_REFERER. != "https://chessgraphs.com/"
+                                      & X.HTTP_REFERER. != "chessgraphs.com"
+                                      & X.HTTP_REFERER. != "chessgraphs.com/"
+                                      & X.HTTP_REFERER. != "www.chessgraphs.com"
+                                      & X.HTTP_REFERER. != "www.chessgraphs.com/"
+                                      & X.HTTP_REFERER. != "http://www.chessgraphs.com"
+                                      & X.HTTP_REFERER. != "http://www.chessgraphs.com/"
+                                      & X.HTTP_REFERER. != "http://chessgraphs.com"
+                                      & X.HTTP_REFERER. != "http://chessgraphs.com/")
 
-format <- table(sep2020$format)
+referer <- table(oct2020$X.HTTP_REFERER.)
+referer <- referer %>% desc()
+view(referer)
+
+
+referer <- table(oct2020$HTTP_REFERER)
+view(referer)
+
+format <- table(oct2020$format)
 barplot(format)
 
 # explore rating formats
@@ -142,7 +161,7 @@ formatCounts <- data.frame(
           nrow(allFideBlitz), nrow(allUscfRegular), nrow(allUscfQuick), nrow(allUscfBlitz),
           nrow(allUrs)))
 
-# explore referers
+# explore referers for all data
 refererFullRow <- all_logs %>% filter(X.HTTP_REFERER. != "" 
                                & X.HTTP_REFERER. != "https://www.chessgraphs.com"
                                & X.HTTP_REFERER. != "https://www.chessgraphs.com/"
