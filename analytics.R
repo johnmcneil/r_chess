@@ -5,7 +5,7 @@ library(lubridate)
 # read csv files 
 data_dir = "~/R_Projects/chessgraphs_logs/"
 filePaths <- list.files(data_dir, "\\.csv$", full.names = TRUE)
-all_logs <- do.call(rbind, lapply(filePaths, read.csv, quote = "", sep = "\t", header = TRUE))
+all_logs <- do.call(rbind, lapply(filePaths, read.csv, quote = "", sep = "\t", header = TRUE, stringsAsFactors = FALSE))
 
 # set column names
 names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "SERVER_ADDR", "SERVER_NAME",
@@ -22,30 +22,30 @@ names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "
 
 # date of log
 # this is ignoring the time, just turning it into a date
+str(all_logs)
 all_logs$Time <- as.Date(all_logs$Time, "%Y-%m-%d:%H:%M::%S")
+str(all_logs)
 all_logs$Number_of_names_searched <- as.integer(all_logs$Number_of_names_searched)
 
 # number of observations each month
-monthCounts <- data.frame(
-  month = c("2019-06-01", "2019-07-01", "2019-08-01", "2019-09-01", "2019-10-01", "2019-11-01", "2019-12-01",
-        "2020-01-01", "2020-02-01", "2020-03-01", "2020-04-01", "2020-05-01", "2020-06-01", "2020-07-01", "2020-08-01", "2020-09-01",
-        "2020-10-01", "2020-11-01"),
-  obs = c(nrow(jun2019), nrow(jul2019), nrow(aug2019), nrow(sep2019), nrow(oct2019), nrow(nov2019), nrow(dec2019),
-      nrow(jan2020), nrow(feb2020), nrow(mar2020), nrow(apr2020), nrow(may2020), nrow(jun2020), nrow(jul2020),
-      nrow(aug2020), nrow(sep2020), nrow(oct2020), nrow(nov2020)))
+monthCounts <- all_logs %>% group_by(Year = year(Time), Month = month(Time, label = TRUE)) %>% summarise(yearMonth = "", obs = n())
 
-monthCounts$month <- as.Date(monthCounts$month, "%Y-%m-%d")
-monthCounts$obs <- as.integer(monthCounts$obs)
-str(monthCounts)
+monthCounts$yearMonth = paste(monthCounts$Year, monthCounts$Month, "01", sep="-")
 
-# summarize month counts
-summary(monthCounts$obs)
+monthCounts$yearMonth <- as.Date(monthCounts$yearMonth, "%Y-%b-%d")
+
+# remove 2019-05, an incomplete month
+# how?
+
+
+# graphs of observations per month
+
 
 # histogram
 hist(monthCounts$obs)
 
 # scatter plot of month counts  
-ggplot(monthCounts, aes(x=month, y=obs)) + 
+ggplot(monthCounts, aes(x=yearMonth, y=obs)) + 
   geom_point() +
   stat_smooth(method="lm")
 
