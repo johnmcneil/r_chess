@@ -1,7 +1,7 @@
 library(tidyverse)
 library(lubridate)
 
-# 1.
+## 1. setup
 # read csv files 
 data_dir = "~/R_Projects/chessgraphs_logs/"
 filePaths <- list.files(data_dir, "\\.csv$", full.names = TRUE)
@@ -27,34 +27,32 @@ all_logs$Time <- as.Date(all_logs$Time, "%Y-%m-%d:%H:%M::%S")
 str(all_logs)
 all_logs$Number_of_names_searched <- as.integer(all_logs$Number_of_names_searched)
 
-# number of observations each month
-monthCounts <- all_logs %>% group_by(Year = year(Time), Month = month(Time, label = TRUE)) %>% summarise(yearMonth = "", obs = n())
 
+
+## 2. compare observations per month
+# remove 2019-05, an incomplete month
+complete_months <- all_logs %>% filter(year(Time) > 2019 | month(Time) != 5)
+
+# group by year and month, summarize number of observations
+monthCounts <- complete_months %>% group_by(Year = year(Time), Month = month(Time, label = TRUE)) %>% summarise(yearMonth = "", obs = n())
+
+# histogram of observations per month
+hist(monthCounts$obs)
+# boxplot of month counts
+boxplot(monthCounts$obs)
+
+# convert to date
 monthCounts$yearMonth = paste(monthCounts$Year, monthCounts$Month, "01", sep="-")
-
 monthCounts$yearMonth <- as.Date(monthCounts$yearMonth, "%Y-%b-%d")
 
-# remove 2019-05, an incomplete month
-# how?
-
-
-# graphs of observations per month
-
-
-# histogram
-hist(monthCounts$obs)
-
-# scatter plot of month counts  
+# scatter plot of observations per month
 ggplot(monthCounts, aes(x=yearMonth, y=obs)) + 
   geom_point() +
   stat_smooth(method="lm")
 
 
-# boxplot of month counts
-boxplot(monthCounts$obs)
 
-
-# focus on most recent complete month, 2020-10
+## 3. most recent month
 
 summary(oct2020$X.Number_of_names_searched.)
 summary(oct2020$X.HTTP_REFERER.)
@@ -71,7 +69,28 @@ barplot(referer)
 format <- table(oct2020$format)
 barplot(format)
 
-# focus on all logged data()
+# explore referrer for most recent month
+summary(oct2020$HTTP_REFERER)
+
+refererFullRow <- oct2020 %>% filter(X.HTTP_REFERER. != "" 
+                                     & X.HTTP_REFERER. != "https://www.chessgraphs.com"
+                                     & X.HTTP_REFERER. != "https://www.chessgraphs.com/"
+                                     & X.HTTP_REFERER. != "https://chessgraphs.com"
+                                     & X.HTTP_REFERER. != "https://chessgraphs.com/"
+                                     & X.HTTP_REFERER. != "chessgraphs.com"
+                                     & X.HTTP_REFERER. != "chessgraphs.com/"
+                                     & X.HTTP_REFERER. != "www.chessgraphs.com"
+                                     & X.HTTP_REFERER. != "www.chessgraphs.com/"
+                                     & X.HTTP_REFERER. != "http://www.chessgraphs.com"
+                                     & X.HTTP_REFERER. != "http://www.chessgraphs.com/"
+                                     & X.HTTP_REFERER. != "http://chessgraphs.com"
+                                     & X.HTTP_REFERER. != "http://chessgraphs.com/")
+
+referer <- table(oct2020$X.HTTP_REFERER.)
+referer <- referer %>% desc()
+view(referer)
+
+## 4. all logged data
 
 # explore Number_of_names_searched
 summary(all_logs$Number_of_names_searched)
@@ -83,28 +102,6 @@ hist(number_searched$Number_of_names_searched)
 
 ggplot(all_logs, aes(x=Time, y=Number_of_names_searched)) +
   geom_point()
-
-
-# explore referrer for most recent month
-summary(oct2020$HTTP_REFERER)
-
-refererFullRow <- oct2020 %>% filter(X.HTTP_REFERER. != "" 
-                                      & X.HTTP_REFERER. != "https://www.chessgraphs.com"
-                                      & X.HTTP_REFERER. != "https://www.chessgraphs.com/"
-                                      & X.HTTP_REFERER. != "https://chessgraphs.com"
-                                      & X.HTTP_REFERER. != "https://chessgraphs.com/"
-                                      & X.HTTP_REFERER. != "chessgraphs.com"
-                                      & X.HTTP_REFERER. != "chessgraphs.com/"
-                                      & X.HTTP_REFERER. != "www.chessgraphs.com"
-                                      & X.HTTP_REFERER. != "www.chessgraphs.com/"
-                                      & X.HTTP_REFERER. != "http://www.chessgraphs.com"
-                                      & X.HTTP_REFERER. != "http://www.chessgraphs.com/"
-                                      & X.HTTP_REFERER. != "http://chessgraphs.com"
-                                      & X.HTTP_REFERER. != "http://chessgraphs.com/")
-
-referer <- table(oct2020$X.HTTP_REFERER.)
-referer <- referer %>% desc()
-view(referer)
 
 
 referer <- table(oct2020$HTTP_REFERER)
