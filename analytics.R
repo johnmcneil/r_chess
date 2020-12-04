@@ -1,39 +1,13 @@
 library(tidyverse)
 library(lubridate)
 
-
+# 1.
 # read csv files 
-# note that 2019-05.csv is not a complete month and 2020-10.csv currently is not complete
+data_dir = "~/R_Projects/chessgraphs_logs/"
+filePaths <- list.files(data_dir, "\\.csv$", full.names = TRUE)
+all_logs <- do.call(rbind, lapply(filePaths, read.csv, quote = "", sep = "\t", header = TRUE))
 
-may2019 <- read.csv("~/R_Projects/chessgraphs_logs/2019-05.csv", quote="", sep ="\t", header=TRUE)
-jun2019 <- read.csv("~/R_Projects/chessgraphs_logs/2019-06.csv", quote="", sep ="\t", header=TRUE)
-jul2019 <- read.csv("~/R_Projects/chessgraphs_logs/2019-07.csv", quote="", sep ="\t", header=TRUE)
-aug2019 <- read.csv("~/R_Projects/chessgraphs_logs/2019-08.csv", quote="", sep ="\t", header=TRUE)
-sep2019 <- read.csv("~/R_Projects/chessgraphs_logs/2019-09.csv", quote="", sep ="\t", header=TRUE)
-oct2019 <- read.csv("~/R_Projects/chessgraphs_logs/2019-10.csv", quote="", sep ="\t", header=TRUE)
-nov2019 <- read.csv("~/R_Projects/chessgraphs_logs/2019-11.csv", quote="", sep ="\t", header=TRUE)
-dec2019 <- read.csv("~/R_Projects/chessgraphs_logs/2019-12.csv", quote="", sep ="\t", header=TRUE)
-jan2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-01.csv", quote="", sep ="\t", header=TRUE)
-feb2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-02.csv", quote="", sep ="\t", header=TRUE)
-mar2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-03.csv", quote="", sep ="\t", header=TRUE)
-apr2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-04.csv", quote="", sep ="\t", header=TRUE)
-may2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-05.csv", quote="", sep ="\t", header=TRUE)
-jun2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-06.csv", quote="", sep ="\t", header=TRUE)
-jul2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-07.csv", quote="", sep ="\t", header=TRUE)
-aug2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-08.csv", quote="", sep ="\t", header=TRUE)
-sep2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-09.csv", quote="", sep ="\t", header=TRUE)
-oct2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-10.csv", quote="", sep ="\t", header=TRUE)
-nov2020 <- read.csv("~/R_Projects/chessgraphs_logs/2020-11.csv", quote="", sep ="\t", header=TRUE)
-
-# check column names
-names(jul2019)
-names(aug2020)
-
-# combine logs into one data frame
-all_logs <- do.call("rbind", list(jun2019, jul2019, aug2019, sep2019, oct2019, nov2019, dec2019, 
-                                  jan2020, feb2020, mar2020, apr2020, may2020, jun2020, jul2020, aug2020, 
-                                  sep2020, oct2020, nov2020))
-
+# set column names
 names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "SERVER_ADDR", "SERVER_NAME",
                       "SERVER_SOFTWARE", "SERVER_PROTOCOL", "REQUEST_METHOD", "REQUEST_TIME", "REQUEST_TIME_FLOAT",
                       "QUERY_STRING", "DOCUMENT_ROOT", "HTTP_ACCEPT", "HTTP_ACCEPT_CHARSET", "HTTP_ACCEPT_ENCODING",
@@ -46,6 +20,7 @@ names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "
 
 # set data types
 
+# date of log
 # this is ignoring the time, just turning it into a date
 all_logs$Time <- as.Date(all_logs$Time, "%Y-%m-%d:%H:%M::%S")
 all_logs$Number_of_names_searched <- as.integer(all_logs$Number_of_names_searched)
