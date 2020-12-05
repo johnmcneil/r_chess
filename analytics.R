@@ -2,6 +2,7 @@ library(tidyverse)
 library(lubridate)
 
 ## 1. setup
+
 # read csv files 
 data_dir = "~/R_Projects/chessgraphs_logs/"
 filePaths <- list.files(data_dir, "\\.csv$", full.names = TRUE)
@@ -29,7 +30,10 @@ all_logs$Number_of_names_searched <- as.integer(all_logs$Number_of_names_searche
 
 
 
+
+
 ## 2. compare observations per month
+
 # remove 2019-05, an incomplete month
 complete_months <- all_logs %>% filter(year(Time) > 2019 | month(Time) != 5)
 
@@ -48,11 +52,13 @@ monthCounts$yearMonth <- as.Date(monthCounts$yearMonth, "%Y-%b-%d")
 # scatter plot of observations per month
 ggplot(monthCounts, aes(x=yearMonth, y=obs)) + 
   geom_point() +
-  stat_smooth(method="lm")
 
 
 
-## 3. most recent month
+
+
+
+## 3. analytics of most recent month
 
 summary(oct2020$X.Number_of_names_searched.)
 summary(oct2020$X.HTTP_REFERER.)
@@ -90,7 +96,7 @@ referer <- table(oct2020$X.HTTP_REFERER.)
 referer <- referer %>% desc()
 view(referer)
 
-## 4. all logged data
+## 4. analytics of all logged data
 
 # explore Number_of_names_searched
 summary(all_logs$Number_of_names_searched)
