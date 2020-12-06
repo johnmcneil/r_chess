@@ -12,7 +12,7 @@ all_logs <- do.call(rbind, lapply(filePaths, read.csv, quote = "", sep = "\t", h
 names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "SERVER_ADDR", "SERVER_NAME",
                       "SERVER_SOFTWARE", "SERVER_PROTOCOL", "REQUEST_METHOD", "REQUEST_TIME", "REQUEST_TIME_FLOAT",
                       "QUERY_STRING", "DOCUMENT_ROOT", "HTTP_ACCEPT", "HTTP_ACCEPT_CHARSET", "HTTP_ACCEPT_ENCODING",
-                      "HTTP_ACCEPT_LANGUAGE", "HTTP_CONNECTION", "HTTP_HOST", "HTTP_REFERER", "HTTP_USER_AGENT",
+                      "HTTP_ACCEPT_LANGUAGE", "HTTP_CONNECTION", "HTTP_HOST", "HTTP_REFERRER", "HTTP_USER_AGENT",
                       "HTTPS", "REMOTE_ADDR", "REMOTE_HOST", "REMOTE_PORT", "REMOTE_USER", "REDIRECT_REMOTE_USER",
                       "SCRIPT_FILENAME", "SERVER_ADMIN", "SERVER_PORT", "SERVER_SIGNATURE", "PATH_TRANSLATED",
                       "SCRIPT_NAME", "REQUEST_URI", "PHP_AUTH_DIGEST", "PHP_AUTH_USER", "PHP_AUTH_PW", "AUTH_TYPE", 
@@ -52,49 +52,53 @@ monthCounts$yearMonth <- as.Date(monthCounts$yearMonth, "%Y-%b-%d")
 # scatter plot of observations per month
 ggplot(monthCounts, aes(x=yearMonth, y=obs)) + 
   geom_point() +
+  stat_smooth(method="lm")
 
 
+## 3. analytics of last complete month
+# get logs of last complete month into a variable
+today <- Sys.Date()
+first_of_this_month <- floor_date(today, unit = "month")
+p <- months(1)
+first_of_last_month <- first_of_this_month - p
+last_month <- month(first_of_last_month)
+last_months_year <-year(first_of_last_month)
 
+last_complete_month_logs <- all_logs %>% filter( month(all_logs$Time) == last_month 
+                                                 & year(all_logs$Time) == last_months_year)
+# analytics of number_of_names_searched
+boxplot(last_complete_month_logs$Number_of_names_searched)
+hist(last_complete_month_logs$Number_of_names_searched)
 
+# analytics of text searches only
+text_search <- last_complete_month_logs %>% filter( Number_of_names_searched > 0 )
+boxplot(text_search$Number_of_names_searched)
+hist(text_search$Number_of_names_searched)
+table(text_search$Number_of_names_searched)
 
-
-## 3. analytics of most recent month
-
-summary(oct2020$X.Number_of_names_searched.)
-summary(oct2020$X.HTTP_REFERER.)
-summary(oct2020$X.format.)
-
-boxplot(oct2020$X.Number_of_names_searched.)
-
-hist(oct2020$X.Number_of_names_searched.)
-
-referer <- table(oct2020$X.HTTP_REFERER.)
-referer <- 
-barplot(referer)
-
-format <- table(oct2020$format)
+# analytics of format searched
+format <- table(text_search$format)
 barplot(format)
 
-# explore referrer for most recent month
-summary(oct2020$HTTP_REFERER)
+# analytics of referrers
+# remove cases where there was no referrer or chessgraphs.com was the referrer
+referrer <- last_complete_month_logs %>% filter(HTTP_REFERRER != "" 
+                                     & HTTP_REFERRER != "https://www.chessgraphs.com"
+                                     & HTTP_REFERRER != "https://www.chessgraphs.com/"
+                                     & HTTP_REFERRER != "https://chessgraphs.com"
+                                     & HTTP_REFERRER != "https://chessgraphs.com/"
+                                     & HTTP_REFERRER != "chessgraphs.com"
+                                     & HTTP_REFERRER != "chessgraphs.com/"
+                                     & HTTP_REFERRER != "www.chessgraphs.com"
+                                     & HTTP_REFERRER != "www.chessgraphs.com/"
+                                     & HTTP_REFERRER != "http://www.chessgraphs.com"
+                                     & HTTP_REFERRER != "http://www.chessgraphs.com/"
+                                     & HTTP_REFERRER != "http://chessgraphs.com"
+                                     & HTTP_REFERRER != "http://chessgraphs.com/")
 
-refererFullRow <- oct2020 %>% filter(X.HTTP_REFERER. != "" 
-                                     & X.HTTP_REFERER. != "https://www.chessgraphs.com"
-                                     & X.HTTP_REFERER. != "https://www.chessgraphs.com/"
-                                     & X.HTTP_REFERER. != "https://chessgraphs.com"
-                                     & X.HTTP_REFERER. != "https://chessgraphs.com/"
-                                     & X.HTTP_REFERER. != "chessgraphs.com"
-                                     & X.HTTP_REFERER. != "chessgraphs.com/"
-                                     & X.HTTP_REFERER. != "www.chessgraphs.com"
-                                     & X.HTTP_REFERER. != "www.chessgraphs.com/"
-                                     & X.HTTP_REFERER. != "http://www.chessgraphs.com"
-                                     & X.HTTP_REFERER. != "http://www.chessgraphs.com/"
-                                     & X.HTTP_REFERER. != "http://chessgraphs.com"
-                                     & X.HTTP_REFERER. != "http://chessgraphs.com/")
-
-referer <- table(oct2020$X.HTTP_REFERER.)
-referer <- referer %>% desc()
-view(referer)
+referrer_table <- table(referrer$HTTP_REFERRER)
+referrer_table <- sort(referrer_table, decreasing = TRUE )
+view(referrer_table)
 
 ## 4. analytics of all logged data
 
@@ -110,8 +114,8 @@ ggplot(all_logs, aes(x=Time, y=Number_of_names_searched)) +
   geom_point()
 
 
-referer <- table(oct2020$HTTP_REFERER)
-view(referer)
+referrer <- table(oct2020$HTTP_REFERRER)
+view(referrer)
 
 format <- table(oct2020$format)
 barplot(format)
@@ -139,24 +143,24 @@ formatCounts <- data.frame(
           nrow(allFideBlitz), nrow(allUscfRegular), nrow(allUscfQuick), nrow(allUscfBlitz),
           nrow(allUrs)))
 
-# explore referers for all data
-refererFullRow <- all_logs %>% filter(X.HTTP_REFERER. != "" 
-                               & X.HTTP_REFERER. != "https://www.chessgraphs.com"
-                               & X.HTTP_REFERER. != "https://www.chessgraphs.com/"
-                               & X.HTTP_REFERER. != "https://chessgraphs.com"
-                               & X.HTTP_REFERER. != "https://chessgraphs.com/"
-                               & X.HTTP_REFERER. != "chessgraphs.com"
-                               & X.HTTP_REFERER. != "chessgraphs.com/"
-                               & X.HTTP_REFERER. != "www.chessgraphs.com"
-                               & X.HTTP_REFERER. != "www.chessgraphs.com/"
-                               & X.HTTP_REFERER. != "http://www.chessgraphs.com"
-                               & X.HTTP_REFERER. != "http://www.chessgraphs.com/"
-                               & X.HTTP_REFERER. != "http://chessgraphs.com"
-                               & X.HTTP_REFERER. != "http://chessgraphs.com/")
+# explore referrers for all data
+referrerFullRow <- all_logs %>% filter(HTTP_REFERRER != "" 
+                               & HTTP_REFERRER != "https://www.chessgraphs.com"
+                               & HTTP_REFERRER != "https://www.chessgraphs.com/"
+                               & HTTP_REFERRER != "https://chessgraphs.com"
+                               & HTTP_REFERRER != "https://chessgraphs.com/"
+                               & HTTP_REFERRER != "chessgraphs.com"
+                               & HTTP_REFERRER != "chessgraphs.com/"
+                               & HTTP_REFERRER != "www.chessgraphs.com"
+                               & HTTP_REFERRER != "www.chessgraphs.com/"
+                               & HTTP_REFERRER != "http://www.chessgraphs.com"
+                               & HTTP_REFERRER != "http://www.chessgraphs.com/"
+                               & HTTP_REFERRER != "http://chessgraphs.com"
+                               & HTTP_REFERRER != "http://chessgraphs.com/")
 
-referer <- table(refererFullRow$X.HTTP_REFERER.)
-referer <- referer %>% desc()
-view(referer)
+referrer <- table(referrerFullRow$HTTP_REFERRER)
+referrer <- referrer %>% desc()
+view(referrer)
 
 
 
