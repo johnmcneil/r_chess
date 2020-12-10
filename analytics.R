@@ -9,7 +9,7 @@ filePaths <- list.files(data_dir, "\\.csv$", full.names = TRUE)
 all_logs <- do.call(rbind, lapply(filePaths, read.csv, quote = "", sep = "\t", header = TRUE, stringsAsFactors = FALSE))
 
 # set column names
-names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "SERVER_ADDR", "SERVER_NAME",
+names(all_logs) <-  c("DateTime", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "SERVER_ADDR", "SERVER_NAME",
                       "SERVER_SOFTWARE", "SERVER_PROTOCOL", "REQUEST_METHOD", "REQUEST_TIME", "REQUEST_TIME_FLOAT",
                       "QUERY_STRING", "DOCUMENT_ROOT", "HTTP_ACCEPT", "HTTP_ACCEPT_CHARSET", "HTTP_ACCEPT_ENCODING",
                       "HTTP_ACCEPT_LANGUAGE", "HTTP_CONNECTION", "HTTP_HOST", "HTTP_REFERRER", "HTTP_USER_AGENT",
@@ -21,24 +21,24 @@ names(all_logs) <-  c("Time", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE", "
 
 # set data types
 
-# date of log
-# this is ignoring the time, just turning it into a date
-str(all_logs)
-all_logs$Time <- as.Date(all_logs$Time, "%Y-%m-%d:%H:%M::%S")
-str(all_logs)
+# convert Time from character to POSIXlt
+all_logs$DateTime <- strptime(all_logs$DateTime, format = "%Y-%m-%d:%H:%M::%S", tz = "CET")
+
+#convert to POSIXct
+all_logs$DateTime <- as.POSIXct(all_logs$DateTime)
+
+# convert Number_of_names_searched from character to integer
 all_logs$Number_of_names_searched <- as.integer(all_logs$Number_of_names_searched)
-
-
 
 
 
 ## 2. compare observations per month
 
 # remove 2019-05, an incomplete month
-complete_months <- all_logs %>% filter(year(Time) > 2019 | month(Time) != 5)
+complete_months <- all_logs %>% filter(year(DateTime) > 2019 | month(DateTime) != 5)
 
 # group by year and month, summarize number of observations
-monthCounts <- complete_months %>% group_by(Year = year(Time), Month = month(Time, label = TRUE)) %>% summarise(yearMonth = "", obs = n())
+monthCounts <- complete_months %>% group_by(Year = year(DateTime), Month = month(DateTime, label = TRUE)) %>% summarise(yearMonth = "", obs = n())
 
 # histogram of observations per month
 hist(monthCounts$obs)
@@ -62,10 +62,11 @@ first_of_this_month <- floor_date(today, unit = "month")
 p <- months(1)
 first_of_last_month <- first_of_this_month - p
 last_month <- month(first_of_last_month)
-last_months_year <-year(first_of_last_month)
+last_months_year <- year(first_of_last_month)
 
-last_complete_month_logs <- all_logs %>% filter( month(all_logs$Time) == last_month 
-                                                 & year(all_logs$Time) == last_months_year)
+last_complete_month_logs <- all_logs %>% filter( month(all_logs$DateTime) == last_month 
+                                                 & year(all_logs$DateTime) == last_months_year)
+
 # analytics of number_of_names_searched
 boxplot(last_complete_month_logs$Number_of_names_searched)
 hist(last_complete_month_logs$Number_of_names_searched)
@@ -77,7 +78,8 @@ hist(text_search$Number_of_names_searched)
 table(text_search$Number_of_names_searched)
 
 # analytics of format searched
-format <- table(text_search$format)
+format_table <- table(text_search$format)
+view(format_table)
 barplot(format)
 
 # analytics of referrers
@@ -106,16 +108,12 @@ view(referrer_table)
 summary(all_logs$Number_of_names_searched)
 number_searched <- all_logs %>% filter(all_logs$Number_of_names_searched < 100)
 
-str(number_searched$Number_of_names_searched)
 boxplot(number_searched$Number_of_names_searched)
 hist(number_searched$Number_of_names_searched)
 
-ggplot(all_logs, aes(x=Time, y=Number_of_names_searched)) +
+ggplot(number_searched, aes(x=DateTime, y=Number_of_names_searched)) +
   geom_point()
 
-
-referrer <- table(all_logs$HTTP_REFERRER)
-view(referrer)
 
 # explore rating formats
 summary(all_logs$format)
@@ -139,6 +137,7 @@ formatCounts <- data.frame(
   obs = c(nrow(allStandard), nrow(allRapid), nrow(allBlitz), nrow(allFideStandard), nrow(allFideRapid), 
           nrow(allFideBlitz), nrow(allUscfRegular), nrow(allUscfQuick), nrow(allUscfBlitz),
           nrow(allUrs)))
+view(formatCounts)
 
 # explore referrers for all data
 referrerFullRow <- all_logs %>% filter(HTTP_REFERRER != "" 
@@ -156,7 +155,6 @@ referrerFullRow <- all_logs %>% filter(HTTP_REFERRER != ""
                                & HTTP_REFERRER != "http://chessgraphs.com/")
 
 referrer <- table(referrerFullRow$HTTP_REFERRER)
-referrer <- referrer %>% desc()
 view(referrer)
 
 
