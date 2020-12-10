@@ -1,5 +1,6 @@
 library(tidyverse)
 library(lubridate)
+library(rjson)
 
 ## 1. setup
 
@@ -102,6 +103,8 @@ referrer_table <- table(referrer$HTTP_REFERRER)
 referrer_table <- sort(referrer_table, decreasing = TRUE )
 view(referrer_table)
 
+
+
 ## 4. analytics of all logged data
 
 # explore Number_of_names_searched
@@ -154,8 +157,7 @@ referrerFullRow <- all_logs %>% filter(HTTP_REFERRER != ""
                                & HTTP_REFERRER != "http://chessgraphs.com"
                                & HTTP_REFERRER != "http://chessgraphs.com/")
 
+
 referrer <- table(referrerFullRow$HTTP_REFERRER)
 view(referrer)
-
-
 
