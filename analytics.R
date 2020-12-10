@@ -117,10 +117,8 @@ ggplot(all_logs, aes(x=Time, y=Number_of_names_searched)) +
 referrer <- table(all_logs$HTTP_REFERRER)
 view(referrer)
 
-format <- table(all_logs$format)
-barplot(format)
-
 # explore rating formats
+summary(all_logs$format)
 allFideStandard <- all_logs %>% filter(format == "fide-standard")
 allFideRapid <- all_logs %>% filter(format == "fide-rapid")
 allFideBlitz <- all_logs %>% filter(format == "fide-blitz")
