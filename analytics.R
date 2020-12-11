@@ -103,6 +103,11 @@ referrer_table <- table(referrer$HTTP_REFERRER)
 referrer_table <- sort(referrer_table, decreasing = TRUE )
 view(referrer_table)
 
+# analytics of user agent
+user_agents_last_month <- last_complete_month_logs %>% group_by(HTTP_USER_AGENT) %>% summarise(Count = n() )
+
+# analytics of IP address
+ip_addresses_last_month <- last_complete_month_logs %>% group_by(REMOTE_ADDR) %>% summarise( Count = n() )
 
 
 ## 4. analytics of all logged data
@@ -161,3 +166,8 @@ referrerFullRow <- all_logs %>% filter(HTTP_REFERRER != ""
 referrer <- table(referrerFullRow$HTTP_REFERRER)
 view(referrer)
 
+# analytics of user agent
+user_agents_all_time <- all_logs %>% group_by(HTTP_USER_AGENT) %>% summarise(Count = n() )
+
+# analytics of IP address
+ip_addresses_all_time <- all_logs %>% group_by(REMOTE_ADDR) %>% summarise( Count = n() )
