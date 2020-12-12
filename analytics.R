@@ -106,8 +106,12 @@ view(referrer_table)
 # analytics of user agent
 user_agents_last_month <- last_complete_month_logs %>% group_by(HTTP_USER_AGENT) %>% summarise(Count = n() )
 
+# parse user agent string
+
 # analytics of IP address
 ip_addresses_last_month <- last_complete_month_logs %>% group_by(REMOTE_ADDR) %>% summarise( Count = n() )
+
+# parse IP address
 
 
 ## 4. analytics of all logged data
@@ -169,5 +173,9 @@ view(referrer)
 # analytics of user agent
 user_agents_all_time <- all_logs %>% group_by(HTTP_USER_AGENT) %>% summarise(Count = n() )
 
+# parse user agent string
+
 # analytics of IP address
 ip_addresses_all_time <- all_logs %>% group_by(REMOTE_ADDR) %>% summarise( Count = n() )
+
+# parse IP address
