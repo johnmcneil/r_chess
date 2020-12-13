@@ -78,6 +78,8 @@ boxplot(text_search$Number_of_names_searched)
 hist(text_search$Number_of_names_searched)
 table(text_search$Number_of_names_searched)
 
+# what names are people searching for?
+
 # analytics of format searched
 format_table <- table(text_search$format)
 view(format_table)
@@ -112,6 +114,7 @@ user_agents_last_month <- last_complete_month_logs %>% group_by(HTTP_USER_AGENT)
 ip_addresses_last_month <- last_complete_month_logs %>% group_by(REMOTE_ADDR) %>% summarise( Count = n() )
 
 # parse IP address
+
 
 
 ## 4. analytics of all logged data
