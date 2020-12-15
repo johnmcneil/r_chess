@@ -1,6 +1,5 @@
 library(tidyverse)
 library(lubridate)
-library(rjson)
 
 ## 1. setup
 
@@ -79,6 +78,7 @@ hist(text_search$Number_of_names_searched)
 table(text_search$Number_of_names_searched)
 
 # what names are people searching for?
+query_strings <- text_search %>% group_by(REQUEST_URI) %>% summarise( Count = n() )
 
 # analytics of format searched
 format_table <- table(text_search$format)
@@ -129,6 +129,11 @@ hist(number_searched$Number_of_names_searched)
 ggplot(number_searched, aes(x=DateTime, y=Number_of_names_searched)) +
   geom_point()
 
+# text searches
+text_searches_all <- all_logs %>% filter(all_logs$Number_of_names_searched > 0)
+query_strings_all <- text_searches_all %>% group_by(REQUEST_URI) %>% summarise( Count = n() )
+view(query_strings_all)
+barplot(query_strings_all$Count)
 
 # explore rating formats
 summary(all_logs$format)
@@ -174,11 +179,12 @@ referrer <- table(referrerFullRow$HTTP_REFERRER)
 view(referrer)
 
 # analytics of user agent
-user_agents_all_time <- all_logs %>% group_by(HTTP_USER_AGENT) %>% summarise(Count = n() )
+user_agents_all <- all_logs %>% group_by(HTTP_USER_AGENT) %>% summarise(Count = n() )
 
 # parse user agent string
 
+
 # analytics of IP address
-ip_addresses_all_time <- all_logs %>% group_by(REMOTE_ADDR) %>% summarise( Count = n() )
+ip_addresses_all <- all_logs %>% group_by(REMOTE_ADDR) %>% summarise( Count = n() )
 
 # parse IP address
