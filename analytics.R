@@ -80,6 +80,40 @@ table(text_search$Number_of_names_searched)
 # what names are people searching for?
 query_strings <- text_search %>% group_by(REQUEST_URI) %>% summarise( Count = n() )
 
+name1 <- text_search %>% group_by(Name1) %>% summarise( Count = n() )
+view(name1)
+
+name2 <- text_search %>% group_by(Name2) %>% summarise( Count = n() )
+view(name2)
+
+name3 <- text_search %>% group_by(Name3) %>% summarise( Count = n() )
+view(name3)
+
+name4 <- text_search %>% group_by(Name4) %>% summarise( Count = n() )
+view(name4)
+
+name5 <- text_search %>% group_by(Name5) %>% summarise( Count = n() )
+view(name5)
+
+name6 <- text_search %>% group_by(Name6) %>% summarise( Count = n() )
+view(name6)
+
+name7 <- text_search %>% group_by(Name7) %>% summarise( Count = n() )
+view(name7)
+
+name8 <- text_search %>% group_by(Name8) %>% summarise( Count = n() )
+view(name8)
+
+name9 <- text_search %>% group_by(Name9) %>% summarise( Count = n() )
+view(name9)
+
+name10 <- text_search %>% group_by(Name10) %>% summarise( Count = n() )
+view(name10)
+
+
+
+
+
 # analytics of format searched
 format_table <- table(text_search$format)
 view(format_table)
@@ -134,6 +168,38 @@ text_searches_all <- all_logs %>% filter(all_logs$Number_of_names_searched > 0)
 query_strings_all <- text_searches_all %>% group_by(REQUEST_URI) %>% summarise( Count = n() )
 view(query_strings_all)
 barplot(query_strings_all$Count)
+
+name1_all <- text_searches_all %>% group_by(Name1) %>% summarise( Count = n() )
+view(name1_all)
+
+name2_all <- text_searches_all %>% group_by(Name2) %>% summarise( Count = n() )
+view(name2_all)
+
+name3_all <- text_searches_all %>% group_by(Name3) %>% summarise( Count = n() )
+view(name3_all)
+
+name4_all <- text_searches_all %>% group_by(Name4) %>% summarise( Count = n() )
+view(name4_all)
+
+name5_all <- text_searches_all %>% group_by(Name5) %>% summarise( Count = n() )
+view(name5_all)
+
+name6_all <- text_searches_all %>% group_by(Name6) %>% summarise( Count = n() )
+view(name6_all)
+
+name7_all <- text_searches_all %>% group_by(Name7) %>% summarise( Count = n() )
+view(name7_all)
+
+name8_all <- text_searches_all %>% group_by(Name8) %>% summarise( Count = n() )
+view(name8_all)
+
+name9_all <- text_searches_all %>% group_by(Name9) %>% summarise( Count = n() )
+view(name9_all)
+
+name10_all <- text_searches_all %>% group_by(Name10) %>% summarise( Count = n() )
+view(name10_all)
+
+
 
 # explore rating formats
 summary(all_logs$format)
