@@ -92,6 +92,9 @@ ggplot(genderKnownSummary, aes(x=DATE, y=AVE_RATING, col=SEX)) +
   geom_point() +
   stat_smooth(method="lm")
   ggtitle("Mean rating of players at or above 2000 FIDE, by gender")
+  
+ggplot(genderKnownSummary, aes(x=DATE, y=RATING, col=SEX)) +
+  geom_violin()
 
 # compare number of all known gender by date
 genderCount <- genderKnown %>% group_by(DATE, SEX) %>% summarise(COUNT = n())
