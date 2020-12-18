@@ -87,13 +87,16 @@ genderKnown <- allFide %>% filter(allFide$SEX != ""
                                   & allFide$FLAG != "i"
                                   & RATING > 1999
                                   & year(allFide$DATE) > 2010 )
+genderKnownAll <- allFide %>% filter(allFide$SEX != ""
+                                     & allFide$FLAG != "i")
+
 genderKnownSummary <- genderKnown %>% group_by(DATE, SEX) %>% summarise(AVE_RATING = mean(RATING))
 ggplot(genderKnownSummary, aes(x=DATE, y=AVE_RATING, col=SEX)) +
   geom_point() +
   stat_smooth(method="lm")
   ggtitle("Mean rating of players at or above 2000 FIDE, by gender")
   
-ggplot(genderKnownSummary, aes(x=DATE, y=RATING, col=SEX)) +
+ggplot(genderKnown, aes(x=DATE, y=RATING, col=SEX)) +
   geom_violin()
 
 # compare number of all known gender by date
