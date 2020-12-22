@@ -1,5 +1,6 @@
 library(tidyverse)
 library(lubridate)
+library(shiny)
 
 ## 1. setup
 
@@ -49,10 +50,28 @@ boxplot(monthCounts$obs)
 monthCounts$yearMonth = paste(monthCounts$Year, monthCounts$Month, "01", sep="-")
 monthCounts$yearMonth <- as.Date(monthCounts$yearMonth, "%Y-%b-%d")
 
-# scatter plot of observations per month
+# scatter plot of visits per month
 ggplot(monthCounts, aes(x=yearMonth, y=obs)) + 
   geom_point() +
   stat_smooth(method="lm")
+
+# shiny app of visits per month
+ui <- fluidPage(
+
+  plotOutput("hist")
+
+)
+
+
+server <- function(input, output) {
+  output$hist <- renderPlot({
+    title <- "histogram of monthly observation counts"
+    hist(monthCounts$obs, main = title)
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
 
 
 ## 3. analytics of last complete month
