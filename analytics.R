@@ -55,18 +55,19 @@ ggplot(monthCounts, aes(x=yearMonth, y=obs)) +
   geom_point() +
   stat_smooth(method="lm")
 
-# shiny app of visits per month
+# shiny app of visits per month histogram
 ui <- fluidPage(
-
+  sliderInput(input = "num", 
+    label = "Choose a number",
+    value = "4", min = 1, max = 20),
   plotOutput("hist")
-
 )
 
 
 server <- function(input, output) {
   output$hist <- renderPlot({
     title <- "histogram of monthly observation counts"
-    hist(monthCounts$obs, main = title)
+    hist(monthCounts$obs, breaks = input$num, main = title)
   })
 }
 
