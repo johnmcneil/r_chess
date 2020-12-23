@@ -57,9 +57,14 @@ ggplot(monthCounts, aes(x=yearMonth, y=obs)) +
 
 # shiny app of visits per month histogram
 ui <- fluidPage(
-  sliderInput(input = "num", 
+  sliderInput(
+    input = "num", 
     label = "Choose a number",
-    value = "4", min = 1, max = 20),
+    value = "4", 
+    min = 1, 
+    max = 20
+  ),
+
   plotOutput("hist")
 )
 
