@@ -59,8 +59,8 @@ ggplot(monthCounts, aes(x=yearMonth, y=obs)) +
 ui <- fluidPage(
   
   sliderInput(
-    input = "num",
-    label = "choose number of bins",
+    input = "breaks",
+    label = "choose number of breaks",
     value = "4",
     min = 1,
     max = 10
@@ -73,7 +73,7 @@ ui <- fluidPage(
 server <- function(input, output) {
   output$hist <- renderPlot({
     title <- "histogram of monthly observation counts"
-    hist(monthCounts$obs, breaks = input$num, main = title)
+    hist(monthCounts$obs, breaks = input$breaks, main = title)
   })
 }
 
