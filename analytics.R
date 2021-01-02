@@ -61,7 +61,7 @@ ui <- fluidPage(
   sliderInput(
     input = "breaks",
     label = "choose number of breaks",
-    value = "4",
+    value = "8",
     min = 1,
     max = 10
   ),
