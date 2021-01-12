@@ -144,7 +144,7 @@ view(name10)
 format_table <- table(text_search$format)
 view(format_table)
 format_frequencies <- text_search %>% group_by(format) %>% summarise( Count = n() )
-barplot(format_frequencies$Count)
+barplot(format_frequencies$Count, names.arg = format_frequencies$format)
 
 # analytics of referrers
 # remove cases where there was no referrer or chessgraphs.com was the referrer
