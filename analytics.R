@@ -194,7 +194,7 @@ ggplot(number_searched, aes(x=DateTime, y=Number_of_names_searched)) +
 text_searches_all <- all_logs %>% filter(all_logs$Number_of_names_searched > 0)
 query_strings_all <- text_searches_all %>% group_by(REQUEST_URI) %>% summarise( Count = n() )
 view(query_strings_all)
-barplot(query_strings_all$Count)
+barplot(query_strings_all$Count, names.arg = query_strings_all$REQUEST_URI)
 
 name1_all <- text_searches_all %>% group_by(Name1) %>% summarise( Count = n() )
 view(name1_all)
