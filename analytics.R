@@ -144,7 +144,11 @@ view(name10)
 format_table <- table(text_search$format)
 view(format_table)
 format_frequencies <- text_search %>% group_by(format) %>% summarise( Count = n() )
-barplot(format_frequencies$Count, names.arg = format_frequencies$format)
+barplot(format_frequencies$Count, 
+        names.arg = format_frequencies$format,
+        las = 2,
+        main = "Frequency of Rating Format Searches, Last Month")
+
 
 # analytics of referrers
 # remove cases where there was no referrer or chessgraphs.com was the referrer
@@ -194,7 +198,7 @@ ggplot(number_searched, aes(x=DateTime, y=Number_of_names_searched)) +
 text_searches_all <- all_logs %>% filter(all_logs$Number_of_names_searched > 0)
 query_strings_all <- text_searches_all %>% group_by(REQUEST_URI) %>% summarise( Count = n() )
 view(query_strings_all)
-barplot(query_strings_all$Count, names.arg = query_strings_all$REQUEST_URI)
+barplot(query_strings_all$Count, names.arg = query_strings_all$REQUEST_URI, cex.names = 0.5, las = 2)
 
 name1_all <- text_searches_all %>% group_by(Name1) %>% summarise( Count = n() )
 view(name1_all)
