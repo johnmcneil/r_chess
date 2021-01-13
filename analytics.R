@@ -104,36 +104,39 @@ hist(text_search$Number_of_names_searched)
 table(text_search$Number_of_names_searched)
 
 # what names are people searching for?
-query_strings <- text_search %>% group_by(REQUEST_URI) %>% summarise( Count = n() )
+query_strings <- text_search %>% 
+  group_by(REQUEST_URI) %>% 
+  summarise( Count = n() ) %>%
+  arrange(desc(Count))
 
-name1 <- text_search %>% group_by(Name1) %>% summarise( Count = n() )
+name1 <- text_search %>% group_by(Name1) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name1)
 
-name2 <- text_search %>% group_by(Name2) %>% summarise( Count = n() )
+name2 <- text_search %>% group_by(Name2) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name2)
 
-name3 <- text_search %>% group_by(Name3) %>% summarise( Count = n() )
+name3 <- text_search %>% group_by(Name3) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name3)
 
-name4 <- text_search %>% group_by(Name4) %>% summarise( Count = n() )
+name4 <- text_search %>% group_by(Name4) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name4)
 
-name5 <- text_search %>% group_by(Name5) %>% summarise( Count = n() )
+name5 <- text_search %>% group_by(Name5) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name5)
 
-name6 <- text_search %>% group_by(Name6) %>% summarise( Count = n() )
+name6 <- text_search %>% group_by(Name6) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name6)
 
-name7 <- text_search %>% group_by(Name7) %>% summarise( Count = n() )
+name7 <- text_search %>% group_by(Name7) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name7)
 
-name8 <- text_search %>% group_by(Name8) %>% summarise( Count = n() )
+name8 <- text_search %>% group_by(Name8) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name8)
 
-name9 <- text_search %>% group_by(Name9) %>% summarise( Count = n() )
+name9 <- text_search %>% group_by(Name9) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name9)
 
-name10 <- text_search %>% group_by(Name10) %>% summarise( Count = n() )
+name10 <- text_search %>% group_by(Name10) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name10)
 
 
@@ -143,7 +146,10 @@ view(name10)
 # analytics of format searched
 format_table <- table(text_search$format)
 view(format_table)
-format_frequencies <- text_search %>% group_by(format) %>% summarise( Count = n() )
+format_frequencies <- text_search %>% 
+  group_by(format) %>% 
+  summarise( Count = n() ) %>%
+  arrange(desc(Count))
 barplot(format_frequencies$Count, 
         names.arg = format_frequencies$format,
         las = 2,
@@ -171,12 +177,18 @@ referrer_table <- sort(referrer_table, decreasing = TRUE )
 view(referrer_table)
 
 # analytics of user agent
-user_agents_last_month <- last_complete_month_logs %>% group_by(HTTP_USER_AGENT) %>% summarise(Count = n() )
+user_agents_last_month <- last_complete_month_logs %>% 
+    group_by(HTTP_USER_AGENT) %>% 
+    summarise(Count = n() ) %>%
+    arrange(desc(Count))
 
 # parse user agent string
 
 # analytics of IP address
-ip_addresses_last_month <- last_complete_month_logs %>% group_by(REMOTE_ADDR) %>% summarise( Count = n() )
+ip_addresses_last_month <- last_complete_month_logs %>% 
+  group_by(REMOTE_ADDR) %>% 
+  summarise( Count = n() ) %>%
+  arrange(desc(Count))
 
 # parse IP address
 
@@ -196,38 +208,40 @@ ggplot(number_searched, aes(x=DateTime, y=Number_of_names_searched)) +
 
 # text searches
 text_searches_all <- all_logs %>% filter(all_logs$Number_of_names_searched > 0)
-query_strings_all <- text_searches_all %>% group_by(REQUEST_URI) %>% summarise( Count = n() )
+query_strings_all <- text_searches_all %>% 
+  group_by(REQUEST_URI) %>% 
+  summarise( Count = n() ) %>%
+  arrange(desc(Count))
 view(query_strings_all)
-barplot(query_strings_all$Count, names.arg = query_strings_all$REQUEST_URI, cex.names = 0.5, las = 2)
 
-name1_all <- text_searches_all %>% group_by(Name1) %>% summarise( Count = n() )
+name1_all <- text_searches_all %>% group_by(Name1) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name1_all)
 
-name2_all <- text_searches_all %>% group_by(Name2) %>% summarise( Count = n() )
+name2_all <- text_searches_all %>% group_by(Name2) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name2_all)
 
-name3_all <- text_searches_all %>% group_by(Name3) %>% summarise( Count = n() )
+name3_all <- text_searches_all %>% group_by(Name3) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name3_all)
 
-name4_all <- text_searches_all %>% group_by(Name4) %>% summarise( Count = n() )
+name4_all <- text_searches_all %>% group_by(Name4) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name4_all)
 
-name5_all <- text_searches_all %>% group_by(Name5) %>% summarise( Count = n() )
+name5_all <- text_searches_all %>% group_by(Name5) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name5_all)
 
-name6_all <- text_searches_all %>% group_by(Name6) %>% summarise( Count = n() )
+name6_all <- text_searches_all %>% group_by(Name6) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name6_all)
 
-name7_all <- text_searches_all %>% group_by(Name7) %>% summarise( Count = n() )
+name7_all <- text_searches_all %>% group_by(Name7) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name7_all)
 
-name8_all <- text_searches_all %>% group_by(Name8) %>% summarise( Count = n() )
+name8_all <- text_searches_all %>% group_by(Name8) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name8_all)
 
-name9_all <- text_searches_all %>% group_by(Name9) %>% summarise( Count = n() )
+name9_all <- text_searches_all %>% group_by(Name9) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name9_all)
 
-name10_all <- text_searches_all %>% group_by(Name10) %>% summarise( Count = n() )
+name10_all <- text_searches_all %>% group_by(Name10) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name10_all)
 
 
@@ -276,12 +290,18 @@ referrer <- table(referrerFullRow$HTTP_REFERRER)
 view(referrer)
 
 # analytics of user agent
-user_agents_all <- all_logs %>% group_by(HTTP_USER_AGENT) %>% summarise(Count = n() )
+user_agents_all <- all_logs %>% 
+  group_by(HTTP_USER_AGENT) %>% 
+  summarise(Count = n() ) %>%
+  arrange(desc(Count))
 
 # parse user agent string
 
 
 # analytics of IP address
-ip_addresses_all <- all_logs %>% group_by(REMOTE_ADDR) %>% summarise( Count = n() )
+ip_addresses_all <- all_logs %>% 
+  group_by(REMOTE_ADDR) %>% 
+  summarise( Count = n() ) %>%
+  arrange(desc(Count))
 
 # parse IP address
