@@ -145,11 +145,11 @@ view(name10)
 
 # analytics of format searched
 format_table <- table(text_search$format)
-view(format_table)
 format_frequencies <- text_search %>% 
   group_by(format) %>% 
   summarise( Count = n() ) %>%
   arrange(desc(Count))
+view(format_frequencies)
 barplot(format_frequencies$Count, 
         names.arg = format_frequencies$format,
         las = 2,
@@ -268,6 +268,7 @@ formatCounts <- data.frame(
   obs = c(nrow(allStandard), nrow(allRapid), nrow(allBlitz), nrow(allFideStandard), nrow(allFideRapid), 
           nrow(allFideBlitz), nrow(allUscfRegular), nrow(allUscfQuick), nrow(allUscfBlitz),
           nrow(allUrs)))
+formatCounts <- formatCounts %>% arrange(desc(obs))
 view(formatCounts)
 
 # explore referrers for all data
@@ -285,8 +286,11 @@ referrerFullRow <- all_logs %>% filter(HTTP_REFERRER != ""
                                & HTTP_REFERRER != "http://chessgraphs.com"
                                & HTTP_REFERRER != "http://chessgraphs.com/")
 
-
-referrer <- table(referrerFullRow$HTTP_REFERRER)
+referrer <- referrerFullRow %>% 
+            select(HTTP_REFERRER) %>% 
+            group_by(HTTP_REFERRER) %>%
+            summarise( Count = n() ) %>%
+            arrange(desc(Count))
 view(referrer)
 
 # analytics of user agent
