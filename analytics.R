@@ -70,7 +70,9 @@ ui <- fluidPage(
     max = 10
   ),
   
-  plotOutput("hist")
+  mainPanel(
+    plotOutput("hist")
+  )
   
 )
 
