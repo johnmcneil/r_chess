@@ -58,6 +58,10 @@ ggplot(monthCounts, aes(x=yearMonth, y=obs)) +
 # shiny app of visits per month histogram
 ui <- fluidPage(
   
+  # application title
+  titlePanel("Histogram of Monthly Visits"),
+  
+  # slider for input of number of bins
   sliderInput(
     input = "breaks",
     label = "choose number of breaks",
