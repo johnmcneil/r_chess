@@ -3,6 +3,11 @@ library(lubridate)
 library(shiny)
 
 ## 1. setup
+## 2. compare observations per month
+## 3. analytics of last complete month
+## 4. analytics of all logged data
+
+## 1. setup
 
 # read csv files 
 data_dir = "~/R_Projects/chessgraphs_logs/"
@@ -20,7 +25,7 @@ names(all_logs) <-  c("DateTime", "PHP_SELF", "argv", "argc", "GATEWAY_INTERFACE
                       "PATH_INFO", "ORIG_PATH_INFO", "Number_of_names_searched", "format", "Name1", "Name2", "Name3",
                       "Name4", "Name5", "Name6", "Name7", "Name8", "Name9", "Name10", "X")
 
-# set data types
+## set data types
 
 # convert Time from character to POSIXlt
 all_logs$DateTime <- strptime(all_logs$DateTime, format = "%Y-%m-%d:%H:%M::%S", tz = "CET")
@@ -43,6 +48,7 @@ monthCounts <- complete_months %>% group_by(Year = year(DateTime), Month = month
 
 # histogram of observations per month
 hist(monthCounts$obs)
+
 # boxplot of month counts
 boxplot(monthCounts$obs)
 
