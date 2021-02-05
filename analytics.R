@@ -91,6 +91,7 @@ shinyApp(ui = ui, server = server)
 
 
 ## 3. analytics of last complete month
+
 # get logs of last complete month into a variable
 today <- Sys.Date()
 first_of_this_month <- floor_date(today, unit = "month")
@@ -148,10 +149,6 @@ view(name9)
 name10 <- text_search %>% group_by(Name10) %>% summarise( Count = n() ) %>% arrange(desc(Count))
 view(name10)
 
-
-
-
-
 # analytics of format searched
 format_table <- table(text_search$format)
 format_frequencies <- text_search %>% 
@@ -193,6 +190,7 @@ user_agents_last_month <- last_complete_month_logs %>%
 
 # parse user agent string
 
+
 # analytics of IP address
 ip_addresses_last_month <- last_complete_month_logs %>% 
   group_by(REMOTE_ADDR) %>% 
@@ -200,6 +198,7 @@ ip_addresses_last_month <- last_complete_month_logs %>%
   arrange(desc(Count))
 
 # parse IP address
+
 
 
 
@@ -254,7 +253,6 @@ name10_all <- text_searches_all %>% group_by(Name10) %>% summarise( Count = n() 
 view(name10_all)
 
 
-
 # explore rating formats
 summary(all_logs$format)
 allFideStandard <- all_logs %>% filter(format == "fide-standard")
@@ -280,6 +278,7 @@ formatCounts <- data.frame(
 formatCounts <- formatCounts %>% arrange(desc(obs))
 view(formatCounts)
 
+
 # explore referrers for all data
 referrerFullRow <- all_logs %>% filter(HTTP_REFERRER != "" 
                                & HTTP_REFERRER != "https://www.chessgraphs.com"
@@ -302,13 +301,16 @@ referrer <- referrerFullRow %>%
             arrange(desc(Count))
 view(referrer)
 
+
 # analytics of user agent
 user_agents_all <- all_logs %>% 
   group_by(HTTP_USER_AGENT) %>% 
   summarise(Count = n() ) %>%
   arrange(desc(Count))
 
+
 # parse user agent string
+
 
 
 # analytics of IP address
