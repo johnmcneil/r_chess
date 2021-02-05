@@ -1,0 +1,10 @@
+name: analytics-shiny
+title:
+username:
+account: johnmcneil
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3585988
+bundleId: 4182925
+url: https://johnmcneil.shinyapps.io/analytics-shiny/
+when: 1612488943.55346
