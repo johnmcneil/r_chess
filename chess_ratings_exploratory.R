@@ -6,7 +6,7 @@ library(tidyverse)
 #                    header=TRUE)
 
 
-ratings <- read.csv("R_Projects/2019-05_standard.csv", header=TRUE)
+ratings <- read.csv("fide/2019-05_standard.csv", header=TRUE)
 
 ggplot(ratings, aes(x=SEX, y=RATING)) +
   geom_boxplot()

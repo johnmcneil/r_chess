@@ -1,9 +1,9 @@
 library(tidyverse)
 library(RColorBrewer)
 
-year1_data <- read.csv('R_Projects/2014-05_supp.csv', header = TRUE)
-year2_data <- read.csv('R_Projects/2019-05_supp.csv', header = TRUE)
-year2020_data <- read.csv('R_Projects/2020.csv', header = TRUE)
+year1_data <- read.csv('fide/2014-05_supp.csv', header = TRUE)
+year2_data <- read.csv('fide/2019-05_supp.csv', header = TRUE)
+year2020_data <- read.csv('fide/2020.csv', header = TRUE)
 
 
 

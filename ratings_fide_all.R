@@ -6,11 +6,11 @@ library(ggwordcloud)
 
 # load csv
 # supplements for comparison
-ratings2019 <- read.csv("R_Projects/2019-05_supp.csv", header=TRUE, stringsAsFactors = FALSE)
-ratings2014 <- read.csv("R_Projects/2014-05_supp.csv", header=TRUE, stringsAsFactors = FALSE)
+ratings2019 <- read.csv("fide/2019-05_supp.csv", header=TRUE, stringsAsFactors = FALSE)
+ratings2014 <- read.csv("fide/2014-05_supp.csv", header=TRUE, stringsAsFactors = FALSE)
 
 # most recent csv of all fide ratings
-allFide <- read.csv("R_Projects/fide_ratings.csv", header=FALSE, stringsAsFactors = FALSE )
+allFide <- read.csv("fide/fide_ratings.csv", header=FALSE, stringsAsFactors = FALSE )
 
 # add column names to allFide
 names(allFide) <- c("ID", "DATE", "RATING_FORMAT", "FIDE_ID", "NAME", "FED", 
